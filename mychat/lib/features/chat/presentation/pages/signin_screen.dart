@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mychat/features/chat/data/models/country_model.dart';
 import 'package:mychat/features/chat/presentation/pages/country_page.dart';
+import 'package:mychat/features/chat/presentation/pages/otp_screen.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -13,6 +14,7 @@ class _SigninScreenState extends State<SigninScreen> {
   String Countryname = 'Ethiopia';
   String Countrycode = '+251';
   String Countryflag = '🇪🇹';
+  TextEditingController numberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +67,40 @@ class _SigninScreenState extends State<SigninScreen> {
               height: 10,
             ),
             number(),
+            const SizedBox(
+              height: 20,
+            ),
+            Expanded(child: Container()),
+            InkWell(
+              onTap: () {
+                if (numberController.text.isNotEmpty) {
+                  showMyDialog();
+                } else {
+                  showMyDialog1();
+                }
+              },
+              child: Container(
+                width: 70,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: const Color(0xFF16325B), // Set color inside decoration
+                ),
+                child: const Center(
+                  child: Text(
+                    'Next',
+                    style: TextStyle(
+                      color: Color(0xff78b7d0),
+                      fontSize: 16.5,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
           ],
         ),
       ),
@@ -146,6 +182,7 @@ class _SigninScreenState extends State<SigninScreen> {
           const SizedBox(width: 5),
           Expanded(
             child: TextField(
+              controller: numberController,
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                 border: InputBorder.none,
@@ -165,5 +202,113 @@ class _SigninScreenState extends State<SigninScreen> {
       Countrycode = country.code;
     });
     Navigator.pop(context);
+  }
+
+  Future<void> showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xff78b7d0),
+          title: const Text('Phone number verification',
+              style: TextStyle(
+                  color: Color(0xFF16325B),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700)),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('We will be verifying the phone number:',
+                    style: TextStyle(
+                        color: Color(0xFF16325B),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500)),
+                const SizedBox(height: 10),
+                Text(Countrycode + ' ' + numberController.text,
+                    style: TextStyle(
+                        color: Color(0xFF16325B),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500)),
+                const SizedBox(height: 10),
+                Text('Is this OK, or would you like to edit the number?',
+                    style: TextStyle(
+                        color: Color(0xFF16325B),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500)),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Edit'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (builder) =>  OtpScreen(
+                              phoneNumber: Countrycode + numberController.text,
+                            )));  
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+
+    
+  }
+
+  Future<void> showMyDialog1() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xff78b7d0),
+          title: const Text('Phone number verification',
+              style: TextStyle(
+                  color: Color(0xFF16325B),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700)),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('There is no phone number to verify',
+                    style: TextStyle(
+                        color: Color(0xFF16325B),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500)),
+              
+                
+              ],
+            ),
+          ),
+          actions: <Widget>[
+          
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+
+    
   }
 }
