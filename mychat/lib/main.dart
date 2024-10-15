@@ -2,10 +2,13 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mychat/features/chat/data/models/chat_model.dart';
+import 'package:mychat/features/chat/presentation/pages/country_page.dart';
 import 'package:mychat/features/chat/presentation/pages/home_screen.dart';
 import 'package:mychat/features/chat/presentation/pages/login_screen.dart';
 import 'package:mychat/features/chat/presentation/pages/new_group_screen.dart';
 import 'package:mychat/features/chat/presentation/pages/select_contact_screen.dart';
+import 'package:mychat/features/chat/presentation/pages/signin_screen.dart';
+import 'package:mychat/features/chat/presentation/pages/wellcome_screen.dart';
 import 'package:mychat/features/chat/presentation/widget/camera_plugin.dart';
 
 Future<void>  main()  async{
@@ -23,8 +26,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       onGenerateRoute: (settings) {
         switch (settings.name) {
+
+          case '/wellcome':
+            return _createRoute( WellcomeScreen());
+          // case '/login':
+          //   return _createRoute(const LoginScreen());
           case '/login':
-            return _createRoute(const LoginScreen());
+            return _createRoute(const SigninScreen());
+          
           case '/home':
           final args = settings.arguments as ChatModel;
           final chatModels = settings.arguments as List<ChatModel>;
@@ -40,38 +49,45 @@ class MyApp extends StatelessWidget {
             return null;
         }
       },
-      initialRoute: '/login',
+      initialRoute: '/wellcome',
       title: 'My Chat app',
       theme: ThemeData(
         textTheme: GoogleFonts.poppinsTextTheme(),
-        primaryColor: const Color(0xFF075E54),
+        primaryColor: const Color(0xFF16325B),
         scaffoldBackgroundColor:
-            Colors.white, // For white background across the app
-        secondaryHeaderColor: Colors.white, // Secondary color as white
+            Color(0xff78b7d0), // For white background across the app
+        secondaryHeaderColor: Color(0xFFFFF0D1), // Secondary color as white
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF075E54),
-          foregroundColor: Colors.white, // App Bar icons color
+          backgroundColor: Color(0xFF16325B),
+          foregroundColor: Color(0xff78b7d0), // App Bar icons color
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all<Color>(const Color(0xFF16325B)), // Button color
+            foregroundColor: WidgetStateProperty.all<Color>(Color(0xff78b7d0)),
+            // Button text color
+          ),
         ),
         popupMenuTheme: const PopupMenuThemeData(
           color: Colors.white, // Popup menu color
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: Color(0xFF075E54),
-          foregroundColor: Colors.white,
+          backgroundColor: Color(0xFF16325B),
+          foregroundColor: Color(0xff78b7d0),
           // Floating action button color
         ),
         tabBarTheme: const TabBarTheme(
-          labelColor: Colors.white, // Selected tab color
+          labelColor: Color(0xff78b7d0), // Selected tab color
           unselectedLabelColor:
               Colors.grey, // Unselected tabs color (Status, Calls)
         ),
         // Using Material 3's color scheme with a custom seed color
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF075E54), // Primary green color as seed
-          primary: Colors.white,
+          seedColor: const Color(0xFF16325B), // Primary green color as seed
+          primary: Colors.black,
           // Text color on primary
           // Secondary (for contrasts and accents)
-          secondary: const Color(0xFF075E54), // Ensure primary is consistent
+          secondary: const Color(0xFF16325B), // Ensure primary is consistent
         ),
 
         useMaterial3: true,

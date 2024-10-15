@@ -93,7 +93,7 @@ class _IndividualchatScreenState extends State<IndividualchatScreen> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Image.asset(
-        'assets/whatsup_background.jpg',
+        'assets/wellcome3.png',
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         fit: BoxFit.cover,
